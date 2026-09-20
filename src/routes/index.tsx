@@ -46,10 +46,10 @@ export const Route = createFileRoute("/")({
           "Skip the cardboard, tape, and last-minute store runs. Reusable moving totes delivered and picked up across Maui's main communities.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://www.mauimovingboxes.com/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://www.mauimovingboxes.com/" }],
   }),
 });
 
