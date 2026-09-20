@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics";
 import {
   Check,
   Heart,
@@ -171,6 +172,12 @@ function WaitlistForm() {
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body,
       });
+      const f = new FormData(e.currentTarget);
+      track("generate_lead", {
+        area: String(f.get("area")),
+        timeframe: String(f.get("timeframe")),
+        package: String(f.get("package")),
+      });
       setJoined(true);
     } catch {
       setError("Something went wrong. Please try again or email mauimovingboxes@gmail.com.");
@@ -304,6 +311,21 @@ function WaitlistForm() {
 }
 
 function Index() {
+  // Count every "Join the Waitlist"-style button by listening for clicks on #waitlist links.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as Element).closest('a[href="#waitlist"]');
+      if (!link) return;
+      const section = link.closest("section, header, footer");
+      track("waitlist_cta_click", {
+        label: (link.textContent ?? "").trim(),
+        location: section?.id || section?.tagName.toLowerCase() || "page",
+      });
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   return (
     <div id="top" className="min-h-screen font-body text-ink antialiased">
       <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-xl">
