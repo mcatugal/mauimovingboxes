@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Maui Move Made Easy
+
+Create me a landing page for a business idea I have that involves renting out storage totes for people who are moving but don't want to have to deal with the headache of buying their own storage totes or cardboard boxes. We drop off the storage totes for a set amount of time, they use them to move to their new home, and we pick them up after they are finished. No cardboard waste, no tape, and ease of use with stackable storage totes.  I need a call to action button "Join the waitlist" so I can gauge demand for this type of service. I live in Maui, Hawaii so I only care to reach local customers.
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://mauimovingboxes.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/75343e32-f8e3-59a6-86b8-8f2f9a57ea98).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
