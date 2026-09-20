@@ -8,3 +8,11 @@ export function track(event: string, params: Record<string, string> = {}) {
   if (typeof window === "undefined") return;
   (window as GtagWindow).gtag?.("event", event, params);
 }
+
+type FbqWindow = Window & { fbq?: (...args: unknown[]) => void };
+
+// Standard Meta events only, with no parameters, so no form answers or personal data reach Meta.
+export function trackMeta(event: "Lead") {
+  if (typeof window === "undefined") return;
+  (window as FbqWindow).fbq?.("track", event);
+}

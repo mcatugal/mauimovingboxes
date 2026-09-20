@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { track } from "@/lib/analytics";
+import { track, trackMeta } from "@/lib/analytics";
 import {
   Check,
   Heart,
@@ -164,7 +164,9 @@ function WaitlistForm() {
     setSubmitting(true);
     setError(null);
     try {
-      const body = JSON.stringify(Object.fromEntries(new FormData(e.currentTarget)));
+      // Read the form before awaiting: React clears e.currentTarget afterwards.
+      const data = new FormData(e.currentTarget);
+      const body = JSON.stringify(Object.fromEntries(data));
       // Apps Script doesn't answer CORS preflights, so send a "simple" request (text/plain, no-cors).
       await fetch(WAITLIST_URL, {
         method: "POST",
@@ -172,12 +174,12 @@ function WaitlistForm() {
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body,
       });
-      const f = new FormData(e.currentTarget);
       track("generate_lead", {
-        area: String(f.get("area")),
-        timeframe: String(f.get("timeframe")),
-        package: String(f.get("package")),
+        area: String(data.get("area")),
+        timeframe: String(data.get("timeframe")),
+        package: String(data.get("package")),
       });
+      trackMeta("Lead");
       setJoined(true);
     } catch {
       setError("Something went wrong. Please try again or email mauimovingboxes@gmail.com.");
