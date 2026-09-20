@@ -1,4 +1,5 @@
 export const GA_MEASUREMENT_ID = "G-VVHFJ30WYW";
+export const META_PIXEL_ID = "992190207227536";
 
 type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
