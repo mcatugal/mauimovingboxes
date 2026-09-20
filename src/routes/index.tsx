@@ -612,10 +612,10 @@ function Index() {
           </nav>
           <ul className="space-y-2 text-sm text-muted-foreground md:text-right">
             <li className="flex items-center gap-2.5 md:justify-end">
-              <Mail className="size-4 text-primary" /> hello@mauimovingboxes.com
+              <Mail className="size-4 text-primary" /> mauimovingboxes@gmail.com
             </li>
             <li className="flex items-center gap-2.5 md:justify-end">
-              <Phone className="size-4 text-primary" /> (808) 555-0123
+              <Phone className="size-4 text-primary" />
             </li>
             <li className="flex items-center gap-2.5 md:justify-end">
               <MapPin className="size-4 text-primary" /> Maui, HI
