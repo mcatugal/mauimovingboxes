@@ -18,12 +18,19 @@ import {
 
 import heroTotes from "@/assets/hero-totes.jpg";
 import mauiScene from "@/assets/maui-scene.jpg";
+import logoHorizontal from "@/assets/brand/logo-horizontal.png";
+import pkg20 from "@/assets/brand/pkg-20.png";
+import pkg35 from "@/assets/brand/pkg-35.png";
+import pkg50 from "@/assets/brand/pkg-50.png";
+import life1 from "@/assets/brand/life-1.jpg";
+import life2 from "@/assets/brand/life-2.jpg";
+import life3 from "@/assets/brand/life-3.jpg";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Maui Moving Boxes — Reusable moving totes delivered on Maui" },
+      { title: "MAUI MOVING BOXES — Reusable moving totes delivered on Maui" },
       {
         name: "description",
         content:
@@ -31,12 +38,12 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Maui Moving Boxes — Reusable moving totes delivered on Maui",
+        content: "MAUI MOVING BOXES — Reusable moving totes delivered on Maui",
       },
       {
         property: "og:description",
         content:
-          "Skip the cardboard, tape, and last-minute store runs. Reusable moving totes delivered and picked up across Maui.",
+          "Skip the cardboard, tape, and last-minute store runs. Reusable moving totes delivered and picked up across Maui's main communities.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -55,33 +62,26 @@ const NAV = [
 
 function Logo({ small = false }: { small?: boolean }) {
   return (
-    <a href="#top" className="flex items-center gap-2.5">
-      <span
-        className={`grid ${small ? "size-8" : "size-10"} place-items-center rounded-xl bg-primary text-primary-foreground`}
-      >
-        <Layers className={small ? "size-4" : "size-5"} />
-      </span>
-      <span className="leading-tight">
-        <span className="block font-display text-lg font-bold tracking-tight">
-          Maui Moving Boxes
-        </span>
-        <span className="block font-mono text-[9px] tracking-[0.18em] text-primary uppercase">
-          Move smarter. A cleaner Maui.
-        </span>
-      </span>
+    <a href="#top" className="inline-flex items-center" aria-label="MAUI MOVING BOXES home">
+      <img
+        src={logoHorizontal}
+        alt="MAUI MOVING BOXES — Pack smart. Move easy. Live Maui."
+        width={885}
+        height={312}
+        className={`w-auto ${small ? "h-12" : "h-14 md:h-16"}`}
+      />
     </a>
   );
 }
 
 function Script({ children, className = "" }: { children: string; className?: string }) {
-  return (
-    <p className={`font-display text-lg italic text-primary/80 ${className}`}>{children}</p>
-  );
+  return <p className={`font-display text-lg italic text-primary/80 ${className}`}>{children}</p>;
 }
 
 const TIERS = [
   {
     name: "Small Move",
+    img: pkg20,
     price: "$99",
     totes: "20 reusable moving totes",
     extra: null as string | null,
@@ -90,6 +90,7 @@ const TIERS = [
   },
   {
     name: "Home Move",
+    img: pkg35,
     price: "$149",
     totes: "35 reusable moving totes",
     extra: "+ moving dolly",
@@ -98,6 +99,7 @@ const TIERS = [
   },
   {
     name: "Family Move",
+    img: pkg50,
     price: "$199",
     totes: "50 reusable moving totes",
     extra: "+ 2 dollies",
@@ -149,6 +151,34 @@ function Faq({ q, a }: { q: string; a: string }) {
 
 function WaitlistForm() {
   const [joined, setJoined] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const url = import.meta.env["VITE_WAITLIST_URL"] as string | undefined;
+    if (!url) {
+      setError("Signups aren't available right now. Please email us at mauimovingboxes@gmail.com.");
+      return;
+    }
+    setSubmitting(true);
+    setError(null);
+    try {
+      const body = JSON.stringify(Object.fromEntries(new FormData(e.currentTarget)));
+      // Apps Script doesn't answer CORS preflights, so send a "simple" request (text/plain, no-cors).
+      await fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body,
+      });
+      setJoined(true);
+    } catch {
+      setError("Something went wrong. Please try again or email mauimovingboxes@gmail.com.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   if (joined) {
     return (
@@ -167,10 +197,7 @@ function WaitlistForm() {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setJoined(true);
-      }}
+      onSubmit={handleSubmit}
       className="rounded-2xl border border-line bg-background/90 p-6 backdrop-blur-xl md:p-7"
     >
       <div className="grid gap-4 sm:grid-cols-3">
@@ -178,7 +205,7 @@ function WaitlistForm() {
           <label className={label} htmlFor="name">
             Name
           </label>
-          <input id="name" required placeholder="Your name" className={field} />
+          <input id="name" name="name" required placeholder="Your name" className={field} />
         </div>
         <div>
           <label className={label} htmlFor="email">
@@ -186,6 +213,7 @@ function WaitlistForm() {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             required
             placeholder="you@example.com"
@@ -196,7 +224,13 @@ function WaitlistForm() {
           <label className={label} htmlFor="phone">
             Phone
           </label>
-          <input id="phone" type="tel" placeholder="(808) 555-0123" className={field} />
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="(808) 555-0123"
+            className={field}
+          />
         </div>
       </div>
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
@@ -204,7 +238,7 @@ function WaitlistForm() {
           <label className={label} htmlFor="area">
             Area of Maui
           </label>
-          <select id="area" required defaultValue="" className={field}>
+          <select id="area" name="area" required defaultValue="" className={field}>
             <option value="" disabled>
               Select an area
             </option>
@@ -212,14 +246,13 @@ function WaitlistForm() {
             <option>Central Maui</option>
             <option>South Maui</option>
             <option>Upcountry</option>
-            <option>East Maui</option>
           </select>
         </div>
         <div>
           <label className={label} htmlFor="timeframe">
             When do you expect to move?
           </label>
-          <select id="timeframe" required defaultValue="" className={field}>
+          <select id="timeframe" name="timeframe" required defaultValue="" className={field}>
             <option value="" disabled>
               Select a timeframe
             </option>
@@ -233,7 +266,7 @@ function WaitlistForm() {
           <label className={label} htmlFor="package">
             Which package would you most likely rent?
           </label>
-          <select id="package" required defaultValue="" className={field}>
+          <select id="package" name="package" required defaultValue="" className={field}>
             <option value="" disabled>
               Select a package
             </option>
@@ -244,12 +277,26 @@ function WaitlistForm() {
           </select>
         </div>
       </div>
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
       <button
         type="submit"
-        className="mt-5 h-12 w-full rounded-lg bg-primary font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
+        disabled={submitting}
+        className="mt-5 h-12 w-full disabled:opacity-60 rounded-lg bg-primary font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
       >
-        Join the Maui Early Access List
+        {submitting ? "Joining…" : "Join the Maui Early Access List"}
       </button>
+      {error && (
+        <p role="alert" className="mt-3 text-center text-sm text-destructive">
+          {error}
+        </p>
+      )}
       <p className="mt-2.5 text-center font-mono text-[11px] text-muted-foreground">
         No payment required. Joining the waitlist does not create a reservation.
       </p>
@@ -261,7 +308,7 @@ function Index() {
   return (
     <div id="top" className="min-h-screen font-body text-ink antialiased">
       <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-6 px-5">
+        <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-6 px-5">
           <Logo />
           <nav className="hidden items-center gap-7 text-sm text-muted-foreground lg:flex">
             {NAV.map((n) => (
@@ -333,7 +380,11 @@ function Index() {
               title: "Delivered & Picked Up",
               copy: "We bring them to you, then pick them up.",
             },
-            { icon: Layers, title: "Stackable & Durable", copy: "Strong, secure, and built to last." },
+            {
+              icon: Layers,
+              title: "Stackable & Durable",
+              copy: "Strong, secure, and built to last.",
+            },
           ].map((b) => (
             <div key={b.title} className="flex items-start gap-3.5">
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
@@ -362,24 +413,36 @@ function Index() {
                 title: "We Deliver",
                 copy: "We bring clean, reusable moving totes to your door.",
                 icon: Truck,
+                img: life2,
+                alt: "A Maui Moving Boxes driver hands a tote to a customer",
               },
               {
                 n: "2",
                 title: "You Move",
                 copy: "Pack, move, and stack with ease.",
                 icon: Layers,
+                img: life1,
+                alt: "Packing belongings into a teal tote at home",
               },
               {
                 n: "3",
                 title: "We Pick Them Up",
                 copy: "When you're done, we'll come get them.",
                 icon: MapPin,
+                img: life3,
+                alt: "Stacked totes on a dolly with an ocean view",
               },
             ].map((s, i) => (
               <div
                 key={s.n}
                 className={`relative px-4 ${i > 0 ? "md:border-l md:border-line" : ""}`}
               >
+                <img
+                  src={s.img}
+                  alt={s.alt}
+                  loading="lazy"
+                  className="mx-auto mb-6 aspect-[5/4] w-full max-w-xs rounded-2xl object-cover shadow-sm outline-1 -outline-offset-1 outline-black/5"
+                />
                 <div className="flex items-center justify-center gap-4">
                   <span className="grid size-8 shrink-0 place-items-center rounded-full bg-primary font-mono text-xs font-bold text-primary-foreground">
                     {s.n}
@@ -424,6 +487,12 @@ function Index() {
                     Most popular
                   </span>
                 )}
+                <img
+                  src={t.img}
+                  alt={`${t.totes} stacked`}
+                  loading="lazy"
+                  className="mx-auto mb-5 h-40 w-auto"
+                />
                 <h3 className="font-display text-xl font-bold tracking-tight">{t.name}</h3>
                 <p className="mt-3">
                   <span className="font-display text-4xl font-bold tracking-tight text-primary">
@@ -528,20 +597,20 @@ function Index() {
 
       {/* Built for Maui */}
       <section className="border-b border-line py-16">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-3">
-          <div>
+        <div className="mx-auto grid max-w-6xl items-stretch gap-6 px-5 md:grid-cols-3 md:gap-8">
+          <div className="flex flex-col justify-center">
             <h2 className="font-display text-3xl font-bold tracking-tight">Built for Maui Moves</h2>
             <p className="mt-4 text-muted-foreground">
-              We proudly deliver and pick up across the island — from Upcountry to Central, South,
-              and West Maui.
+              We proudly deliver and pick up across Maui's main communities — from Upcountry to
+              Central, South, and West Maui.
             </p>
             <p className="mt-3 text-muted-foreground">
-              Wherever you're moving, we'll meet you there.
+              Not sure if we cover your address? Join the waitlist and we'll confirm.
             </p>
           </div>
-          <div className="rounded-2xl border border-line bg-glass p-6 backdrop-blur-md">
-            <ul className="space-y-3">
-              {["West Maui", "Central Maui", "Upcountry", "South Maui", "East Maui"].map((a) => (
+          <div className="flex items-center rounded-2xl border border-line bg-glass p-6 backdrop-blur-md md:p-8">
+            <ul className="space-y-4">
+              {["West Maui", "Central Maui", "Upcountry", "South Maui"].map((a) => (
                 <li key={a} className="flex items-center gap-3 text-sm font-semibold">
                   <MapPin className="size-4 shrink-0 text-primary" />
                   {a}
@@ -549,18 +618,20 @@ function Index() {
               ))}
             </ul>
           </div>
-          <ul className="space-y-5">
-            {[
-              { icon: Truck, copy: "Local delivery, local service" },
-              { icon: Palmtree, copy: "Serving all of Maui" },
-              { icon: Heart, copy: "A cleaner island for a brighter tomorrow" },
-            ].map((i) => (
-              <li key={i.copy} className="flex items-center gap-3.5">
-                <i.icon className="size-5 shrink-0 text-primary" />
-                <span className="text-sm text-ink">{i.copy}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center rounded-2xl border border-line bg-glass p-6 backdrop-blur-md md:p-8">
+            <ul className="space-y-4">
+              {[
+                { icon: Truck, copy: "Local delivery, local service" },
+                { icon: Palmtree, copy: "Serving Maui's main communities" },
+                { icon: Heart, copy: "A cleaner island for a brighter tomorrow" },
+              ].map((i) => (
+                <li key={i.copy} className="flex items-center gap-3 text-sm font-semibold">
+                  <i.icon className="size-4 shrink-0 text-primary" />
+                  {i.copy}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -624,7 +695,7 @@ function Index() {
         </div>
         <div className="border-t border-line bg-primary/10">
           <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-4 font-mono text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} Maui Moving Boxes. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} MAUI MOVING BOXES. All rights reserved.</span>
             <span>A cleaner Maui. Brighter tomorrows.</span>
           </div>
         </div>
