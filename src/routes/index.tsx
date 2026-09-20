@@ -149,6 +149,10 @@ function Faq({ q, a }: { q: string; a: string }) {
   );
 }
 
+// Google Apps Script web app that appends signups to the waitlist sheet (see apps-script/waitlist.gs).
+const WAITLIST_URL =
+  "https://script.google.com/macros/s/AKfycbyp4Sz8w6e77gcKmiu97PUq6bS9AEZaRoEgAi3e5CO5aciHPTmiXUASV_NXxtqxNYvE/exec";
+
 function WaitlistForm() {
   const [joined, setJoined] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -156,17 +160,12 @@ function WaitlistForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const url = import.meta.env["VITE_WAITLIST_URL"] as string | undefined;
-    if (!url) {
-      setError("Signups aren't available right now. Please email us at mauimovingboxes@gmail.com.");
-      return;
-    }
     setSubmitting(true);
     setError(null);
     try {
       const body = JSON.stringify(Object.fromEntries(new FormData(e.currentTarget)));
       // Apps Script doesn't answer CORS preflights, so send a "simple" request (text/plain, no-cors).
-      await fetch(url, {
+      await fetch(WAITLIST_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
