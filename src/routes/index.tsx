@@ -28,6 +28,9 @@ import familyPhoto from "@/assets/packages/family.webp";
 const TALLY_FORM_ID = "xXK16d";
 const CONTACT_EMAIL = "info@mauimovingtotes.com";
 
+// Link previews need an absolute URL. The file lives in public/og-image.png.
+const SHARE_IMAGE = "https://www.mauimovingtotes.com/og-image.png";
+
 const SITE_TITLE = "MAUI MOVING TOTES — Reusable moving totes delivered on Maui";
 const SITE_DESCRIPTION =
   "Rent tough, stackable moving totes on Maui. We deliver, you move, we pick them up. No cardboard, no tape, no hassle. Request an appointment today.";
@@ -42,7 +45,12 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mauimovingtotes.com/" },
+      { property: "og:image", content: SHARE_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "MAUI MOVING TOTES: Moving? Skip the cardboard." },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: SHARE_IMAGE },
     ],
     links: [{ rel: "canonical", href: "https://www.mauimovingtotes.com/" }],
   }),
