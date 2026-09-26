@@ -7,11 +7,12 @@ import {
   CalendarCheck,
   Check,
   Layers,
-  Leaf,
   Mail,
   MapPin,
   Minus,
+  PackageCheck,
   Plus,
+  ShieldCheck,
   Truck,
   X,
 } from "lucide-react";
@@ -445,13 +446,13 @@ function Index() {
                 ))}
               </ul>
               <p className="mt-6 border-t-2 border-ink/20 pt-4 font-bold text-muted-foreground">
-                Expensive, wasteful, and frustrating.
+                Expensive, flimsy, and frustrating.
               </p>
             </div>
             <div className={`rounded-3xl bg-primary p-7 ${pop} shadow-[8px_8px_0_0_var(--ink)]`}>
               <div className="flex items-center gap-3">
                 <span className="grid size-10 place-items-center rounded-full border-2 border-ink bg-background">
-                  <Leaf className="size-5" />
+                  <ShieldCheck className="size-5" />
                 </span>
                 <h3 className="text-3xl">Our Totes</h3>
               </div>
@@ -473,7 +474,7 @@ function Index() {
                 ))}
               </ul>
               <p className="mt-6 border-t-2 border-ink/30 pt-4 font-extrabold">
-                Convenient, sustainable, and stress-free.
+                Convenient, sturdy, and stress-free.
               </p>
             </div>
           </div>
@@ -508,7 +509,7 @@ function Index() {
               {[
                 { icon: Truck, copy: "Local delivery, local service" },
                 { icon: MapPin, copy: "Serving Maui's main communities" },
-                { icon: Leaf, copy: "A cleaner island for a brighter tomorrow" },
+                { icon: PackageCheck, copy: "Delivery and pickup included" },
               ].map((i) => (
                 <li key={i.copy} className="flex items-center gap-3 text-lg font-bold">
                   <i.icon className="size-6 shrink-0 text-primary" />
@@ -610,7 +611,7 @@ function Index() {
         <div className="border-t-2 border-background/20 bg-primary text-ink">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 text-sm font-bold sm:flex-row sm:items-center sm:justify-between">
             <span>© {new Date().getFullYear()} MAUI MOVING TOTES. All rights reserved.</span>
-            <span>A cleaner Maui. Brighter tomorrows.</span>
+            <span>Stack it. Move it. Done.</span>
           </div>
         </div>
       </footer>
