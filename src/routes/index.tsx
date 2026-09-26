@@ -40,10 +40,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.mauimovingboxes.com/" },
+      { property: "og:url", content: "https://www.mauimovingtotes.com/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://www.mauimovingboxes.com/" }],
+    links: [{ rel: "canonical", href: "https://www.mauimovingtotes.com/" }],
   }),
 });
 
