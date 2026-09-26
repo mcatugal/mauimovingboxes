@@ -19,8 +19,8 @@
  */
 
 @theme inline {
-  --font-display: "Bagel Fat One", "Arial Rounded MT Bold", system-ui, sans-serif;
-  --font-body: "Nunito", system-ui, sans-serif;
+  --font-display: "Rubik", system-ui, sans-serif;
+  --font-body: "Rubik", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --ease-isle: cubic-bezier(0.32, 0.72, 0, 1);
   --color-ink: var(--ink);
@@ -160,8 +160,13 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: 0.005em;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+
+  .font-display {
+    font-weight: 800;
+    letter-spacing: -0.005em;
   }
 
 }
