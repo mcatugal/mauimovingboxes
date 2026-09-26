@@ -2,50 +2,43 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { track, trackMeta } from "@/lib/analytics";
 import {
-  Check,
-  Heart,
-  Leaf,
-  Layers,
-  MapPin,
-  Mail,
-  Phone,
-  Plus,
-  Minus,
-  Truck,
-  Ban,
-  Palmtree,
   ArrowRight,
+  Ban,
+  CalendarCheck,
+  Check,
+  Layers,
+  Leaf,
+  Mail,
+  MapPin,
+  Minus,
+  Plus,
+  Truck,
+  X,
 } from "lucide-react";
 
-import heroTotes from "@/assets/hero-totes.jpg";
-import mauiScene from "@/assets/maui-scene.jpg";
-import logoHorizontal from "@/assets/brand/logo-horizontal.png";
-import pkg20 from "@/assets/brand/pkg-20.png";
-import pkg35 from "@/assets/brand/pkg-35.png";
-import pkg50 from "@/assets/brand/pkg-50.png";
-import life1 from "@/assets/brand/life-1.jpg";
-import life2 from "@/assets/brand/life-2.jpg";
-import life3 from "@/assets/brand/life-3.jpg";
+import logo from "@/assets/brand/logo.png";
+import toteIcon from "@/assets/brand/tote-icon.png";
+import smallPhoto from "@/assets/packages/small.webp";
+import homePhoto from "@/assets/packages/home.webp";
+import familyPhoto from "@/assets/packages/family.webp";
+
+// Tally form that people use to request an appointment.
+// Paste the form ID (the part after tally.so/r/ in your form link) to turn the embed on.
+const TALLY_FORM_ID = "xXK16d";
+const CONTACT_EMAIL = "info@mauimovingtotes.com";
+
+const SITE_TITLE = "MAUI MOVING TOTES — Reusable moving totes delivered on Maui";
+const SITE_DESCRIPTION =
+  "Rent tough, stackable moving totes on Maui. We deliver, you move, we pick them up. No cardboard, no tape, no hassle. Request an appointment today.";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "MAUI MOVING BOXES — Reusable moving totes delivered on Maui" },
-      {
-        name: "description",
-        content:
-          "Reusable moving boxes delivered to your door on Maui. We drop off clean stackable totes, you move, we pick them up. No cardboard, no tape. Join the waitlist.",
-      },
-      {
-        property: "og:title",
-        content: "MAUI MOVING BOXES — Reusable moving totes delivered on Maui",
-      },
-      {
-        property: "og:description",
-        content:
-          "Skip the cardboard, tape, and last-minute store runs. Reusable moving totes delivered and picked up across Maui's main communities.",
-      },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESCRIPTION },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mauimovingboxes.com/" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -56,55 +49,38 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { label: "How It Works", href: "#how" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Packages", href: "#packages" },
   { label: "FAQ", href: "#faq" },
-  { label: "Join Waitlist", href: "#waitlist" },
 ];
 
-function Logo({ small = false }: { small?: boolean }) {
-  return (
-    <a href="#top" className="inline-flex items-center" aria-label="MAUI MOVING BOXES home">
-      <img
-        src={logoHorizontal}
-        alt="MAUI MOVING BOXES — Pack smart. Move easy. Live Maui."
-        width={885}
-        height={312}
-        className={`w-auto ${small ? "h-12" : "h-14 md:h-16"}`}
-      />
-    </a>
-  );
-}
-
-function Script({ children, className = "" }: { children: string; className?: string }) {
-  return <p className={`font-display text-lg italic text-primary/80 ${className}`}>{children}</p>;
-}
+const BOOK_CTA = "Request an Appointment";
 
 const TIERS = [
   {
     name: "Small Move",
-    img: pkg20,
     price: "$99",
     totes: "20 reusable moving totes",
-    extra: null as string | null,
+    extra: "+ 2 dollies",
     blurb: "Great for studios, dorms, and partial moves.",
+    img: smallPhoto as string | null,
     featured: false,
   },
   {
     name: "Home Move",
-    img: pkg35,
     price: "$149",
     totes: "35 reusable moving totes",
-    extra: "+ moving dolly",
+    extra: "+ 2 dollies",
     blurb: "Ideal for 1–2 bedroom homes and condos.",
+    img: homePhoto as string | null,
     featured: true,
   },
   {
-    name: "Family Move",
-    img: pkg50,
+    name: "Family Home Move",
     price: "$199",
     totes: "50 reusable moving totes",
-    extra: "+ 2 dollies",
+    extra: "+ 4 dollies",
     blurb: "Best for families and larger moves.",
+    img: familyPhoto as string | null,
     featured: false,
   },
 ];
@@ -128,198 +104,126 @@ const FAQS = [
   },
 ];
 
+const STRIP = ["No Cardboard", "No Tape", "We Deliver", "We Pick Up", "Stack & Go", "Maui Moves"];
+
+const pop = "border-2 border-ink shadow-[5px_5px_0_0_var(--ink)]";
+const btnBase =
+  "inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink px-6 py-3.5 font-display text-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none";
+
+function BookButton({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href="#book"
+      className={`${btnBase} bg-primary text-ink shadow-[4px_4px_0_0_var(--ink)] hover:shadow-[6px_6px_0_0_var(--ink)] ${className}`}
+    >
+      {BOOK_CTA} <ArrowRight className="size-5" />
+    </a>
+  );
+}
+
+function Logo({ small = false }: { small?: boolean }) {
+  return (
+    <a href="#top" className="inline-flex items-center" aria-label="MAUI MOVING TOTES home">
+      <img
+        src={logo}
+        alt="MAUI MOVING TOTES"
+        width={1200}
+        height={745}
+        className={`w-auto ${small ? "h-14" : "h-12 md:h-14"}`}
+      />
+    </a>
+  );
+}
+
 function Faq({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-xl border border-line bg-glass backdrop-blur-md">
+    <div className={`rounded-2xl bg-card ${pop}`}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
       >
-        <span className="font-display font-semibold tracking-tight">{q}</span>
-        {open ? (
-          <Minus className="size-4 shrink-0 text-primary" />
-        ) : (
-          <Plus className="size-4 shrink-0 text-primary" />
-        )}
+        <span className="font-display text-lg">{q}</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-full border-2 border-ink bg-primary">
+          {open ? <Minus className="size-4" /> : <Plus className="size-4" />}
+        </span>
       </button>
-      {open && <p className="px-5 pb-4 text-sm text-muted-foreground">{a}</p>}
+      {open && <p className="px-5 pb-5 text-muted-foreground">{a}</p>}
     </div>
   );
 }
 
-// Google Apps Script web app that appends signups to the waitlist sheet (see apps-script/waitlist.gs).
-const WAITLIST_URL =
-  "https://script.google.com/macros/s/AKfycbyp4Sz8w6e77gcKmiu97PUq6bS9AEZaRoEgAi3e5CO5aciHPTmiXUASV_NXxtqxNYvE/exec";
-
-function WaitlistForm() {
-  const [joined, setJoined] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    try {
-      // Read the form before awaiting: React clears e.currentTarget afterwards.
-      const data = new FormData(e.currentTarget);
-      const body = JSON.stringify(Object.fromEntries(data));
-      // Apps Script doesn't answer CORS preflights, so send a "simple" request (text/plain, no-cors).
-      await fetch(WAITLIST_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body,
-      });
-      track("generate_lead", {
-        area: String(data.get("area")),
-        timeframe: String(data.get("timeframe")),
-        package: String(data.get("package")),
-      });
-      trackMeta("Lead");
-      setJoined(true);
-    } catch {
-      setError("Something went wrong. Please try again or email mauimovingboxes@gmail.com.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  if (joined) {
+function PackagePhoto({ src, name }: { src: string | null; name: string }) {
+  if (src) {
     return (
-      <div className="rounded-2xl border border-line bg-background/90 p-8 text-center backdrop-blur-xl">
-        <h3 className="font-display text-2xl font-bold tracking-tight">You're on the list.</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          We'll reach out before we launch in your area of Maui.
-        </p>
-      </div>
+      <img
+        src={src}
+        alt={`${name} package of moving totes`}
+        loading="lazy"
+        className="aspect-square w-full rounded-xl border-2 border-ink bg-white object-cover"
+      />
     );
   }
+  return (
+    <div className="grid aspect-square w-full place-items-center rounded-xl border-2 border-dashed border-ink/40 bg-muted">
+      <img src={toteIcon} alt="" className="w-24 opacity-30 grayscale" />
+    </div>
+  );
+}
 
-  const field =
-    "h-11 w-full rounded-lg border border-line bg-background px-3 text-sm text-ink outline-none placeholder:text-muted-foreground/70 focus:border-primary/60";
-  const label = "mb-1.5 block text-xs font-semibold tracking-wide text-ink";
+// Loads Tally's embed script (auto-resizes the form) and reports completed submissions.
+function TallyEmbed() {
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (typeof e.data !== "string" || !e.data.includes("Tally.FormSubmitted")) return;
+      try {
+        // Only the event name is read. The submitted answers are never touched or forwarded.
+        if ((JSON.parse(e.data) as { event?: string }).event !== "Tally.FormSubmitted") return;
+      } catch {
+        return;
+      }
+      track("generate_lead");
+      trackMeta("Lead");
+    };
+    window.addEventListener("message", onMessage);
+
+    const existing = document.querySelector('script[src="https://tally.so/widgets/embed.js"]');
+    const load = () =>
+      (window as unknown as { Tally?: { loadEmbeds: () => void } }).Tally?.loadEmbeds();
+    if (existing) {
+      load();
+    } else {
+      const s = document.createElement("script");
+      s.src = "https://tally.so/widgets/embed.js";
+      s.async = true;
+      s.onload = load;
+      document.body.appendChild(s);
+    }
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-2xl border border-line bg-background/90 p-6 backdrop-blur-xl md:p-7"
-    >
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <label className={label} htmlFor="name">
-            Name
-          </label>
-          <input id="name" name="name" required placeholder="Your name" className={field} />
-        </div>
-        <div>
-          <label className={label} htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            placeholder="you@example.com"
-            className={field}
-          />
-        </div>
-        <div>
-          <label className={label} htmlFor="phone">
-            Phone
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            placeholder="(808) 555-0123"
-            className={field}
-          />
-        </div>
-      </div>
-      <div className="mt-4 grid gap-4 sm:grid-cols-3">
-        <div>
-          <label className={label} htmlFor="area">
-            Area of Maui
-          </label>
-          <select id="area" name="area" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Select an area
-            </option>
-            <option>West Maui</option>
-            <option>Central Maui</option>
-            <option>South Maui</option>
-            <option>Upcountry</option>
-          </select>
-        </div>
-        <div>
-          <label className={label} htmlFor="timeframe">
-            When do you expect to move?
-          </label>
-          <select id="timeframe" name="timeframe" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Select a timeframe
-            </option>
-            <option>Within a month</option>
-            <option>1–3 months</option>
-            <option>3–6 months</option>
-            <option>Just planning ahead</option>
-          </select>
-        </div>
-        <div>
-          <label className={label} htmlFor="package">
-            Which package would you most likely rent?
-          </label>
-          <select id="package" name="package" required defaultValue="" className={field}>
-            <option value="" disabled>
-              Select a package
-            </option>
-            <option>Small Move — $99 / week</option>
-            <option>Home Move — $149 / week</option>
-            <option>Family Move — $199 / week</option>
-            <option>Not sure yet</option>
-          </select>
-        </div>
-      </div>
-      <input
-        type="text"
-        name="company"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        className="hidden"
-      />
-      <button
-        type="submit"
-        disabled={submitting}
-        className="mt-5 h-12 w-full disabled:opacity-60 rounded-lg bg-primary font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
-      >
-        {submitting ? "Joining…" : "Join the Maui Early Access List"}
-      </button>
-      {error && (
-        <p role="alert" className="mt-3 text-center text-sm text-destructive">
-          {error}
-        </p>
-      )}
-      <p className="mt-2.5 text-center font-mono text-[11px] text-muted-foreground">
-        No payment required. Joining the waitlist does not create a reservation.
-      </p>
-    </form>
+    <iframe
+      data-tally-src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+      title="Request an appointment"
+      loading="lazy"
+      width="100%"
+      height="420"
+      className="border-0"
+    />
   );
 }
 
 function Index() {
-  // Count every "Join the Waitlist"-style button by listening for clicks on #waitlist links.
+  // Count clicks on every "Request an Appointment" button.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const link = (e.target as Element).closest('a[href="#waitlist"]');
+      const link = (e.target as Element).closest('a[href="#book"]');
       if (!link) return;
       const section = link.closest("section, header, footer");
-      track("waitlist_cta_click", {
+      track("book_cta_click", {
         label: (link.textContent ?? "").trim(),
         location: section?.id || section?.tagName.toLowerCase() || "page",
       });
@@ -329,208 +233,182 @@ function Index() {
   }, []);
 
   return (
-    <div id="top" className="min-h-screen font-body text-ink antialiased">
-      <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-xl">
+    <div id="top" className="min-h-screen scroll-smooth font-body text-ink antialiased">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b-2 border-ink bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-6 px-5">
           <Logo />
-          <nav className="hidden items-center gap-7 text-sm text-muted-foreground lg:flex">
+          <nav className="hidden items-center gap-8 font-display text-lg md:flex">
             {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="transition-colors hover:text-ink">
+              <a key={n.href} href={n.href} className="transition-colors hover:text-ink/60">
                 {n.label}
               </a>
             ))}
           </nav>
           <a
-            href="#waitlist"
-            className="shrink-0 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
+            href="#book"
+            className={`${btnBase} bg-primary px-5 py-2.5 text-base shadow-[3px_3px_0_0_var(--ink)] hover:shadow-[5px_5px_0_0_var(--ink)]`}
           >
-            Join the Waitlist
+            <span className="hidden sm:inline">{BOOK_CTA}</span>
+            <span className="sm:hidden">Book</span>
           </a>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="border-b border-line">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-2 md:py-20">
+      <section className="relative overflow-hidden border-b-2 border-ink bg-primary">
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage: "radial-gradient(var(--ink) 1.5px, transparent 1.5px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-[1.05fr_1fr] md:py-20">
           <div className="animate-[rise_0.6s_var(--ease-isle)_both]">
-            <h1 className="font-display text-5xl leading-[1.02] font-bold tracking-tight text-balance md:text-6xl">
-              Moving Just Got Easier.
-            </h1>
-            <div className="mt-4 h-1 w-16 rounded-full bg-primary" />
-            <h2 className="mt-5 max-w-[26ch] font-display text-xl font-semibold tracking-tight text-pretty md:text-2xl">
-              Reusable moving boxes delivered to your door on Maui.
-            </h2>
-            <p className="mt-4 max-w-[46ch] text-pretty text-muted-foreground">
-              Skip the cardboard, tape, and last-minute store runs. We deliver clean, sturdy moving
-              totes to your home, and pick them up when you're done.
+            <p className="inline-block -rotate-2 rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
+              Reusable moving totes · Maui, HI
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <h1 className="mt-5 text-6xl leading-[0.95] text-balance sm:text-7xl lg:text-[5.5rem]">
+              Moving?
+              <br />
+              Skip the{" "}
+              <span className="whitespace-nowrap underline decoration-[6px] underline-offset-[6px]">
+                cardboard.
+              </span>
+            </h1>
+            <p className="mt-6 max-w-[42ch] text-xl font-semibold text-pretty">
+              We drop off tough, stackable totes. You move. We pick them up. No tape, no boxes to
+              build, no trash to haul.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <BookButton />
               <a
-                href="#waitlist"
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-5 font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
+                href="#packages"
+                className={`${btnBase} bg-background shadow-[4px_4px_0_0_var(--ink)] hover:shadow-[6px_6px_0_0_var(--ink)]`}
               >
-                Check Availability <ArrowRight className="size-4" />
-              </a>
-              <a
-                href="#waitlist"
-                className="inline-flex h-12 items-center rounded-xl border border-primary/40 bg-glass px-5 font-semibold text-primary backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/5"
-              >
-                Join the Waitlist
+                See Packages
               </a>
             </div>
-            <Script className="mt-6">Less waste. A brighter Maui.</Script>
           </div>
-          <div className="animate-[stackin_0.8s_var(--ease-isle)_0.12s_both]">
-            <img
-              src={heroTotes}
-              alt="Three teal reusable moving totes stacked on a dolly in a bright Maui living room"
-              width={1280}
-              height={1280}
-              className="aspect-square w-full rounded-3xl object-cover outline-1 -outline-offset-1 outline-black/5"
-            />
+
+          <div className="relative mx-auto w-full max-w-md animate-[stackin_0.8s_var(--ease-isle)_0.1s_both] md:max-w-none">
+            <div
+              className={`rounded-[2rem] bg-background p-6 sm:p-8 ${pop} shadow-[10px_10px_0_0_var(--ink)]`}
+            >
+              <img
+                src={logo}
+                alt="MAUI MOVING TOTES logo"
+                width={1200}
+                height={745}
+                className="w-full"
+              />
+            </div>
+            <span className="absolute -top-4 -right-2 rotate-6 rounded-2xl border-2 border-ink bg-background px-4 py-2 font-display text-lg shadow-[4px_4px_0_0_var(--ink)]">
+              Delivery + pickup included
+            </span>
           </div>
         </div>
       </section>
 
-      {/* Benefit strip */}
-      <section className="border-b border-line bg-background/50">
-        <div className="mx-auto grid max-w-6xl gap-6 px-5 py-9 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { icon: Leaf, title: "No Cardboard", copy: "A cleaner, greener way to move." },
-            { icon: Ban, title: "No Tape", copy: "Save time and hassle." },
-            {
-              icon: Truck,
-              title: "Delivered & Picked Up",
-              copy: "We bring them to you, then pick them up.",
-            },
-            {
-              icon: Layers,
-              title: "Stackable & Durable",
-              copy: "Strong, secure, and built to last.",
-            },
-          ].map((b) => (
-            <div key={b.title} className="flex items-start gap-3.5">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
-                <b.icon className="size-5" />
-              </span>
-              <div>
-                <p className="font-display font-semibold tracking-tight">{b.title}</p>
-                <p className="text-sm text-muted-foreground">{b.copy}</p>
-              </div>
-            </div>
+      {/* Marquee strip */}
+      <div className="overflow-hidden border-b-2 border-ink bg-ink py-3 text-primary" aria-hidden>
+        <div className="flex w-max animate-[marquee_28s_linear_infinite] gap-10 whitespace-nowrap font-display text-2xl">
+          {[...STRIP, ...STRIP, ...STRIP, ...STRIP].map((t, i) => (
+            <span key={i} className="flex items-center gap-10">
+              {t} <span className="text-background">★</span>
+            </span>
           ))}
         </div>
-      </section>
+      </div>
 
       {/* How it works */}
-      <section id="how" className="border-b border-line py-16 md:py-20">
-        <div className="mx-auto max-w-6xl px-5 text-center">
-          <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
-            How It Works
-          </h2>
-          <p className="mt-2 text-muted-foreground">Three simple steps to a smoother move.</p>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
+      <section id="how" className="border-b-2 border-ink py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <div className="text-center">
+            <h2 className="text-5xl md:text-6xl">How It Works</h2>
+            <p className="mt-3 text-lg text-muted-foreground">Three easy steps. That's it.</p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
               {
                 n: "1",
                 title: "We Deliver",
-                copy: "We bring clean, reusable moving totes to your door.",
+                copy: "We bring clean, reusable moving totes right to your door.",
                 icon: Truck,
-                img: life2,
-                alt: "A Maui Moving Boxes driver hands a tote to a customer",
+                tilt: "md:-rotate-1",
               },
               {
                 n: "2",
                 title: "You Move",
-                copy: "Pack, move, and stack with ease.",
+                copy: "Pack, snap the lids shut, and stack with ease. No tape needed.",
                 icon: Layers,
-                img: life1,
-                alt: "Packing belongings into a teal tote at home",
+                tilt: "md:rotate-1",
               },
               {
                 n: "3",
                 title: "We Pick Them Up",
-                copy: "When you're done, we'll come get them.",
+                copy: "When you're done, we'll come get them. Nothing to break down or throw away.",
                 icon: MapPin,
-                img: life3,
-                alt: "Stacked totes on a dolly with an ocean view",
+                tilt: "md:-rotate-1",
               },
-            ].map((s, i) => (
-              <div
-                key={s.n}
-                className={`relative px-4 ${i > 0 ? "md:border-l md:border-line" : ""}`}
-              >
-                <img
-                  src={s.img}
-                  alt={s.alt}
-                  loading="lazy"
-                  className="mx-auto mb-6 aspect-[5/4] w-full max-w-xs rounded-2xl object-cover shadow-sm outline-1 -outline-offset-1 outline-black/5"
-                />
-                <div className="flex items-center justify-center gap-4">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-primary font-mono text-xs font-bold text-primary-foreground">
+            ].map((s) => (
+              <div key={s.n} className={`rounded-3xl bg-card p-7 ${pop} ${s.tilt}`}>
+                <div className="flex items-center justify-between">
+                  <span className="grid size-14 place-items-center rounded-full border-2 border-ink bg-primary font-display text-3xl">
                     {s.n}
                   </span>
-                  <span className="grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary">
-                    <s.icon className="size-8" />
-                  </span>
+                  <s.icon className="size-10" strokeWidth={2.2} />
                 </div>
-                <h3 className="mt-5 font-display text-xl font-semibold tracking-tight">
-                  {s.title}
-                </h3>
-                <p className="mx-auto mt-2 max-w-[28ch] text-sm text-muted-foreground">{s.copy}</p>
+                <h3 className="mt-6 text-3xl">{s.title}</h3>
+                <p className="mt-2 text-muted-foreground">{s.copy}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="border-b border-line py-16 md:py-20">
+      {/* Packages */}
+      <section id="packages" className="border-b-2 border-ink bg-secondary py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center">
-            <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
-              Choose Your Move
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Simple, transparent pricing for every stage of life.
+            <h2 className="text-5xl md:text-6xl">Choose Your Move</h2>
+            <p className="mt-3 text-lg text-muted-foreground">
+              Simple, transparent weekly pricing.
             </p>
           </div>
-          <div className="mt-11 grid items-start gap-5 md:grid-cols-3">
+          <div className="mt-14 grid items-start gap-7 md:grid-cols-3">
             {TIERS.map((t) => (
               <div
                 key={t.name}
-                className={`relative rounded-2xl p-7 backdrop-blur-md ${
-                  t.featured
-                    ? "border-2 border-primary/50 bg-primary/5 md:-mt-4 md:pb-9"
-                    : "border border-line bg-glass"
+                className={`relative rounded-3xl p-6 ${pop} ${
+                  t.featured ? "bg-primary md:-mt-5 md:pb-8" : "bg-card"
                 }`}
               >
                 {t.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 font-mono text-[10px] tracking-[0.14em] text-primary-foreground uppercase">
+                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 rotate-2 rounded-full border-2 border-ink bg-ink px-4 py-1 font-display text-base whitespace-nowrap text-primary">
                     Most popular
                   </span>
                 )}
-                <img
-                  src={t.img}
-                  alt={`${t.totes} stacked`}
-                  loading="lazy"
-                  className="mx-auto mb-5 h-40 w-auto"
-                />
-                <h3 className="font-display text-xl font-bold tracking-tight">{t.name}</h3>
-                <p className="mt-3">
-                  <span className="font-display text-4xl font-bold tracking-tight text-primary">
-                    {t.price}
-                  </span>
-                  <span className="ml-1 text-sm text-muted-foreground">/ week</span>
+                <PackagePhoto src={t.img} name={t.name} />
+                <h3 className="mt-5 text-3xl">{t.name}</h3>
+                <p className="mt-2 flex items-baseline gap-1.5">
+                  <span className="font-display text-6xl leading-none">{t.price}</span>
+                  <span className="text-lg font-bold">/ week</span>
                 </p>
-                <p className="mt-4 text-sm font-semibold">{t.totes}</p>
-                {t.extra && <p className="text-sm font-semibold text-primary">{t.extra}</p>}
-                <p className="mt-3 text-sm text-muted-foreground">{t.blurb}</p>
+                <p className="mt-4 text-lg font-extrabold">{t.totes}</p>
+                {t.extra && <p className="text-lg font-extrabold">{t.extra}</p>}
+                <p className={`mt-2 ${t.featured ? "text-ink/80" : "text-muted-foreground"}`}>
+                  {t.blurb}
+                </p>
                 <a
-                  href="#waitlist"
-                  className="mt-6 block rounded-lg bg-primary py-3 text-center font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
+                  href="#book"
+                  className={`${btnBase} mt-6 w-full shadow-[4px_4px_0_0_var(--ink)] hover:shadow-[6px_6px_0_0_var(--ink)] ${
+                    t.featured ? "bg-background" : "bg-primary"
+                  }`}
                 >
-                  Join the Waitlist
+                  Book This Package
                 </a>
               </div>
             ))}
@@ -538,118 +416,102 @@ function Index() {
         </div>
       </section>
 
-      {/* Why reusable */}
-      <section id="why" className="relative border-b border-line">
-        <img
-          src={mauiScene}
-          alt="Green West Maui mountains framed by palm fronds"
-          width={1280}
-          height={768}
-          loading="lazy"
-          className="absolute inset-0 size-full object-cover opacity-30"
-        />
-        <div className="relative mx-auto grid max-w-6xl gap-8 px-5 py-16 md:grid-cols-3 md:py-20">
-          <div>
-            <h2 className="max-w-[16ch] font-display text-3xl font-bold tracking-tight text-balance">
-              Why Reusable Moving Boxes?
-            </h2>
-            <p className="mt-4 max-w-[32ch] text-muted-foreground">
-              A better move for you — and a cleaner, healthier Maui.
-            </p>
-            <Script className="mt-6">Same great moves. A brighter tomorrow.</Script>
-          </div>
-          <div className="rounded-2xl border border-line bg-background/85 backdrop-blur-md">
-            <div className="flex items-center gap-2.5 border-b border-line px-5 py-3.5">
-              <span className="grid size-7 place-items-center rounded-md bg-secondary text-muted-foreground">
-                <Ban className="size-4" />
-              </span>
-              <p className="font-display font-semibold tracking-tight text-muted-foreground">
-                Cardboard
+      {/* Cardboard vs totes */}
+      <section className="border-b-2 border-ink py-16 md:py-24">
+        <div className="mx-auto max-w-5xl px-5">
+          <h2 className="text-center text-5xl md:text-6xl">Cardboard vs. Totes</h2>
+          <div className="mt-12 grid gap-7 md:grid-cols-2">
+            <div className="rounded-3xl border-2 border-ink bg-muted p-7">
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 place-items-center rounded-full border-2 border-ink bg-background">
+                  <Ban className="size-5" />
+                </span>
+                <h3 className="text-3xl">Cardboard</h3>
+              </div>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Buy boxes (over and over)",
+                  "Assemble each box",
+                  "Use tape",
+                  "Crush easily",
+                  "Dispose afterward",
+                ].map((i) => (
+                  <li key={i} className="flex items-center gap-3 text-lg text-muted-foreground">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full border-2 border-ink bg-background">
+                      <X className="size-3.5" strokeWidth={3} />
+                    </span>
+                    {i}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 border-t-2 border-ink/20 pt-4 font-bold text-muted-foreground">
+                Expensive, wasteful, and frustrating.
               </p>
             </div>
-            <ul className="space-y-3 px-5 py-5">
-              {[
-                "Buy boxes (over and over)",
-                "Assemble each box",
-                "Use tape",
-                "Crush easily",
-                "Dispose afterward",
-              ].map((i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <span className="grid size-4 shrink-0 place-items-center rounded-full bg-destructive/15 text-[10px] font-bold text-destructive">
-                    ✕
-                  </span>
-                  {i}
-                </li>
-              ))}
-            </ul>
-            <p className="border-t border-line px-5 py-4 text-sm text-muted-foreground">
-              Expensive, wasteful, and frustrating.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-primary/30 bg-background/90 backdrop-blur-md">
-            <div className="flex items-center gap-2.5 border-b border-primary/25 bg-primary/5 px-5 py-3.5">
-              <span className="grid size-7 place-items-center rounded-md bg-primary text-primary-foreground">
-                <Layers className="size-4" />
-              </span>
-              <p className="font-display font-semibold tracking-tight">Our Boxes</p>
+            <div className={`rounded-3xl bg-primary p-7 ${pop} shadow-[8px_8px_0_0_var(--ink)]`}>
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 place-items-center rounded-full border-2 border-ink bg-background">
+                  <Leaf className="size-5" />
+                </span>
+                <h3 className="text-3xl">Our Totes</h3>
+              </div>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Delivered ready to use",
+                  "No assembly",
+                  "No tape",
+                  "Stack securely",
+                  "Weather-resistant",
+                  "We pick them up",
+                ].map((i) => (
+                  <li key={i} className="flex items-center gap-3 text-lg font-bold">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full border-2 border-ink bg-ink text-primary">
+                      <Check className="size-3.5" strokeWidth={3} />
+                    </span>
+                    {i}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 border-t-2 border-ink/30 pt-4 font-extrabold">
+                Convenient, sustainable, and stress-free.
+              </p>
             </div>
-            <ul className="space-y-3 px-5 py-5">
-              {[
-                "Delivered ready to use",
-                "No assembly",
-                "No tape",
-                "Stack securely",
-                "Weather-resistant",
-                "We pick them up",
-              ].map((i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-ink">
-                  <span className="grid size-4 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
-                    <Check className="size-2.5" />
-                  </span>
-                  {i}
-                </li>
-              ))}
-            </ul>
-            <p className="border-t border-primary/25 px-5 py-4 text-sm font-semibold text-primary">
-              Convenient, sustainable, and stress-free.
-            </p>
           </div>
         </div>
       </section>
 
       {/* Built for Maui */}
-      <section className="border-b border-line py-16">
+      <section className="border-b-2 border-ink bg-ink py-16 text-background md:py-20">
         <div className="mx-auto grid max-w-6xl items-stretch gap-6 px-5 md:grid-cols-3 md:gap-8">
           <div className="flex flex-col justify-center">
-            <h2 className="font-display text-3xl font-bold tracking-tight">Built for Maui Moves</h2>
-            <p className="mt-4 text-muted-foreground">
+            <h2 className="text-5xl text-primary">Built for Maui Moves</h2>
+            <p className="mt-4 text-lg text-background/80">
               We proudly deliver and pick up across Maui's main communities — from Upcountry to
               Central, South, and West Maui.
             </p>
-            <p className="mt-3 text-muted-foreground">
-              Not sure if we cover your address? Join the waitlist and we'll confirm.
+            <p className="mt-3 text-background/80">
+              Not sure if we cover your address? Request an appointment and we'll confirm.
             </p>
           </div>
-          <div className="flex items-center rounded-2xl border border-line bg-glass p-6 backdrop-blur-md md:p-8">
+          <div className="flex items-center rounded-3xl border-2 border-primary p-7">
             <ul className="space-y-4">
               {["West Maui", "Central Maui", "Upcountry", "South Maui"].map((a) => (
-                <li key={a} className="flex items-center gap-3 text-sm font-semibold">
-                  <MapPin className="size-4 shrink-0 text-primary" />
+                <li key={a} className="flex items-center gap-3 font-display text-2xl">
+                  <MapPin className="size-6 shrink-0 text-primary" />
                   {a}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="flex items-center rounded-2xl border border-line bg-glass p-6 backdrop-blur-md md:p-8">
+          <div className="flex items-center rounded-3xl border-2 border-primary p-7">
             <ul className="space-y-4">
               {[
                 { icon: Truck, copy: "Local delivery, local service" },
-                { icon: Palmtree, copy: "Serving Maui's main communities" },
-                { icon: Heart, copy: "A cleaner island for a brighter tomorrow" },
+                { icon: MapPin, copy: "Serving Maui's main communities" },
+                { icon: Leaf, copy: "A cleaner island for a brighter tomorrow" },
               ].map((i) => (
-                <li key={i.copy} className="flex items-center gap-3 text-sm font-semibold">
-                  <i.icon className="size-4 shrink-0 text-primary" />
+                <li key={i.copy} className="flex items-center gap-3 text-lg font-bold">
+                  <i.icon className="size-6 shrink-0 text-primary" />
                   {i.copy}
                 </li>
               ))}
@@ -658,35 +520,64 @@ function Index() {
         </div>
       </section>
 
-      {/* Waitlist */}
-      <section id="waitlist" className="relative border-b border-line bg-primary/5 py-16 md:py-20">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-5">
+      {/* Book an appointment */}
+      <section id="book" className="scroll-mt-20 border-b-2 border-ink bg-primary py-16 md:py-24">
+        <div className="mx-auto grid max-w-6xl items-start gap-10 px-5 md:grid-cols-5">
           <div className="md:col-span-2">
-            <h2 className="max-w-[16ch] font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
-              Be First to Know When We Launch
-            </h2>
-            <p className="mt-4 max-w-[38ch] text-muted-foreground">
-              Join our early access list and be the first to get availability, updates, and
-              exclusive offers.
+            <span className="inline-block rotate-2 rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
+              Takes about a minute
+            </span>
+            <h2 className="mt-5 text-5xl text-balance md:text-6xl">Ready to Move Easy?</h2>
+            <p className="mt-4 max-w-[36ch] text-xl font-semibold">
+              Tell us a little about your move and pick a time. We'll take it from there.
             </p>
-            <Script className="mt-6">Good moves ahead.</Script>
+            <ul className="mt-6 space-y-3 text-lg font-bold">
+              {[
+                "No payment required to request",
+                "Delivery + pickup included",
+                "Real people, right here on Maui",
+              ].map((i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full border-2 border-ink bg-ink text-primary">
+                    <Check className="size-3.5" strokeWidth={3} />
+                  </span>
+                  {i}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="md:col-span-3">
-            <WaitlistForm />
+          <div
+            className={`rounded-3xl bg-background p-5 sm:p-7 md:col-span-3 ${pop} shadow-[8px_8px_0_0_var(--ink)]`}
+          >
+            {TALLY_FORM_ID ? (
+              <TallyEmbed />
+            ) : (
+              <div className="py-8 text-center">
+                <CalendarCheck className="mx-auto size-12" />
+                <h3 className="mt-4 text-3xl">Appointment form coming soon</h3>
+                <p className="mx-auto mt-2 max-w-[34ch] text-muted-foreground">
+                  In the meantime, email us and we'll get you booked.
+                </p>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=Appointment%20request`}
+                  className={`${btnBase} mt-6 bg-primary shadow-[4px_4px_0_0_var(--ink)]`}
+                >
+                  <Mail className="size-5" /> Email us
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-16 md:py-20">
+      <section id="faq" className="py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-5">
           <div className="text-center">
-            <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-2 text-muted-foreground">Quick answers to common questions.</p>
+            <h2 className="text-5xl md:text-6xl">Got Questions?</h2>
+            <p className="mt-3 text-lg text-muted-foreground">Quick answers to common ones.</p>
           </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
             {FAQS.map((f) => (
               <Faq key={f.q} {...f} />
             ))}
@@ -694,31 +585,31 @@ function Index() {
         </div>
       </section>
 
-      <footer className="border-t border-line">
-        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 md:grid-cols-3">
-          <Logo small />
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            {NAV.map((n) => (
-              <a key={n.href} href={n.href} className="transition-colors hover:text-ink">
+      {/* Footer */}
+      <footer className="border-t-2 border-ink bg-ink text-background">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-10 md:grid-cols-3">
+          <div className="inline-block w-fit rounded-2xl bg-background p-2">
+            <Logo small />
+          </div>
+          <nav className="flex flex-wrap gap-x-7 gap-y-2 font-display text-lg">
+            {[...NAV, { label: BOOK_CTA, href: "#book" }].map((n) => (
+              <a key={n.href} href={n.href} className="transition-colors hover:text-primary">
                 {n.label}
               </a>
             ))}
           </nav>
-          <ul className="space-y-2 text-sm text-muted-foreground md:text-right">
+          <ul className="space-y-2 md:text-right">
             <li className="flex items-center gap-2.5 md:justify-end">
-              <Mail className="size-4 text-primary" /> mauimovingboxes@gmail.com
-            </li>
-            <li className="flex items-center gap-2.5 md:justify-end">
-              <Phone className="size-4 text-primary" />
+              <Mail className="size-4 text-primary" /> {CONTACT_EMAIL}
             </li>
             <li className="flex items-center gap-2.5 md:justify-end">
               <MapPin className="size-4 text-primary" /> Maui, HI
             </li>
           </ul>
         </div>
-        <div className="border-t border-line bg-primary/10">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-4 font-mono text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} MAUI MOVING BOXES. All rights reserved.</span>
+        <div className="border-t-2 border-background/20 bg-primary text-ink">
+          <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 text-sm font-bold sm:flex-row sm:items-center sm:justify-between">
+            <span>© {new Date().getFullYear()} MAUI MOVING TOTES. All rights reserved.</span>
             <span>A cleaner Maui. Brighter tomorrows.</span>
           </div>
         </div>
