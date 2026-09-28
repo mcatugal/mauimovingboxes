@@ -348,11 +348,11 @@ function Index() {
               Simple, transparent weekly pricing.
             </p>
           </div>
-          <div className="mt-14 grid items-start gap-7 md:grid-cols-3">
+          <div className="mt-14 grid items-stretch gap-7 md:grid-cols-3">
             {TIERS.map((t) => (
               <div
                 key={t.name}
-                className={`relative rounded-3xl p-6 ${pop} ${
+                className={`relative flex h-full flex-col rounded-3xl p-6 ${pop} ${
                   t.featured ? "bg-primary md:-mt-5 md:pb-8" : "bg-card"
                 }`}
               >
@@ -372,6 +372,7 @@ function Index() {
                 <p className={`mt-2 ${t.featured ? "text-ink/80" : "text-muted-foreground"}`}>
                   {t.blurb}
                 </p>
+                <div className="flex-1" />
                 <a
                   href="#book"
                   className={`${btnBase} mt-6 w-full shadow-[4px_4px_0_0_var(--ink)] hover:shadow-[6px_6px_0_0_var(--ink)] ${
