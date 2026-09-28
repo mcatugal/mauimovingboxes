@@ -4,11 +4,19 @@ Landing page for **Maui Moving Totes**, a Maui-based service that rents out heav
 
 **Live site**: https://www.mauimovingtotes.com (also served at https://mauimovingboxes.lovable.app)
 
-## What's on the page
+## Pages
 
-- Hero, how it works, three weekly packages (Small $99, Home $149, Family Home $199), cardboard vs. totes, service area, FAQ.
+- **`/`** — Hero, how it works, three weekly packages (Small $99, Home $149, Family Home $199), cardboard vs. totes, service area, FAQ, and the appointment form.
+- **`/about`** — About the owner, Keanu Catugal.
+
+Both pages share the same header (with a mobile menu) and footer, defined in `src/components/site-chrome.tsx`.
+
+## Key integrations
+
 - **Appointment requests** come through an embedded [Tally](https://tally.so) form. There is no backend or database in this project.
-- Analytics: Google Analytics 4 and the Meta Pixel (PageView on every page, plus `Lead` when a Tally form is submitted). Only event names are sent. Form answers and contact details never leave Tally.
+- **Analytics**: Google Analytics 4 and the Meta Pixel (PageView on every page, plus `Lead` when a Tally form is submitted, and `book_cta_click`/`generate_lead` GA events). Only event names and dropdown-style answers are sent — names, emails, and phone numbers never leave Tally.
+- **SEO**: `public/sitemap.xml` and `public/robots.txt`, plus `MovingCompany` and `FAQPage` JSON-LD structured data (see `src/routes/__root.tsx` and `src/routes/index.tsx`).
+- **Social**: Instagram and Facebook links live in `src/components/site-chrome.tsx` (`SOCIAL`), shown in the footer.
 
 ## Tech stack
 
@@ -16,15 +24,19 @@ TanStack Start and TanStack Router (React 19), Vite, Tailwind CSS v4, and shadcn
 
 ## Where things live
 
-| What                                           | Where                                          |
-| ---------------------------------------------- | ---------------------------------------------- |
-| The whole page (copy, packages, FAQ, sections) | `src/routes/index.tsx`                         |
-| Tally form ID, contact email, share image URL  | Constants at the top of `src/routes/index.tsx` |
-| Page shell, fonts, GA4 and Meta Pixel scripts  | `src/routes/__root.tsx`                        |
-| GA4 and Meta Pixel IDs, event helpers          | `src/lib/analytics.ts`                         |
-| Colors and fonts (design tokens)               | `src/styles.css`                               |
-| Logo and package photos                        | `src/assets/brand/`, `src/assets/packages/`    |
-| Favicon and link-preview image                 | `public/favicon.png`, `public/og-image.png`    |
+| What                                               | Where                                         |
+| -------------------------------------------------- | --------------------------------------------- |
+| Homepage copy, packages, FAQ, sections             | `src/routes/index.tsx`                        |
+| About page copy and bio                            | `src/routes/about.tsx`                        |
+| Shared header, footer, nav, contact info, socials  | `src/components/site-chrome.tsx`              |
+| Tally form ID                                      | `TALLY_FORM_ID` in `src/routes/index.tsx`     |
+| Contact email/phone, social links                  | Constants in `src/components/site-chrome.tsx` |
+| Page shell, fonts, GA4/Meta Pixel scripts, JSON-LD | `src/routes/__root.tsx`                       |
+| GA4 and Meta Pixel IDs, event helpers              | `src/lib/analytics.ts`                        |
+| Colors and fonts (design tokens)                   | `src/styles.css`                              |
+| Logo and owner photo                               | `src/assets/brand/`                           |
+| Package photos                                     | `src/assets/packages/`                        |
+| Favicon, share image, sitemap, robots.txt          | `public/`                                     |
 
 ## Development
 

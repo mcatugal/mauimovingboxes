@@ -1,10 +1,12 @@
 // Header, footer, and small building blocks shared by every route.
 import { useState } from "react";
-import { ArrowRight, Facebook, Instagram, Mail, MapPin, Menu, X } from "lucide-react";
+import { ArrowRight, Facebook, Instagram, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 
 import logo from "@/assets/brand/logo.png";
 
 export const CONTACT_EMAIL = "info@mauimovingtotes.com";
+export const CONTACT_PHONE = "808-269-8920";
+export const CONTACT_PHONE_TEL = "+18082698920";
 // Link previews need an absolute URL. The file lives in public/og-image.png.
 export const SHARE_IMAGE = "https://www.mauimovingtotes.com/og-image.png";
 
@@ -119,7 +121,16 @@ export function SiteFooter() {
         <div className="space-y-2 md:text-right">
           <ul className="space-y-2">
             <li className="flex items-center gap-2.5 md:justify-end">
-              <Mail className="size-4 text-primary" /> {CONTACT_EMAIL}
+              <Phone className="size-4 text-primary" />
+              <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-primary">
+                {CONTACT_PHONE}
+              </a>
+            </li>
+            <li className="flex items-center gap-2.5 md:justify-end">
+              <Mail className="size-4 text-primary" />
+              <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-primary">
+                {CONTACT_EMAIL}
+              </a>
             </li>
             <li className="flex items-center gap-2.5 md:justify-end">
               <MapPin className="size-4 text-primary" /> Maui, HI

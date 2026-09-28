@@ -20,6 +20,8 @@ import {
   BOOK_CTA,
   BookButton,
   CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_TEL,
   SHARE_IMAGE,
   SiteFooter,
   SiteHeader,
@@ -27,7 +29,6 @@ import {
   pop,
 } from "@/components/site-chrome";
 import logo from "@/assets/brand/logo.png";
-import toteIcon from "@/assets/brand/tote-icon.png";
 import smallPhoto from "@/assets/packages/small.webp";
 import homePhoto from "@/assets/packages/home.webp";
 import familyPhoto from "@/assets/packages/family.webp";
@@ -83,7 +84,7 @@ const TIERS = [
     totes: "20 reusable moving totes",
     extra: "+ 2 dollies",
     blurb: "Great for studios, dorms, and partial moves.",
-    img: smallPhoto as string | null,
+    img: smallPhoto,
     featured: false,
   },
   {
@@ -92,7 +93,7 @@ const TIERS = [
     totes: "35 reusable moving totes",
     extra: "+ 2 dollies",
     blurb: "Ideal for 1–2 bedroom homes and condos.",
-    img: homePhoto as string | null,
+    img: homePhoto,
     featured: true,
   },
   {
@@ -101,7 +102,7 @@ const TIERS = [
     totes: "50 reusable moving totes",
     extra: "+ 4 dollies",
     blurb: "Best for families and larger moves.",
-    img: familyPhoto as string | null,
+    img: familyPhoto,
     featured: false,
   },
 ];
@@ -147,23 +148,16 @@ function Faq({ q, a }: { q: string; a: string }) {
   );
 }
 
-function PackagePhoto({ src, name }: { src: string | null; name: string }) {
-  if (src) {
-    return (
-      <img
-        src={src}
-        alt={`${name} package of moving totes`}
-        loading="lazy"
-        width={1000}
-        height={1000}
-        className="aspect-square w-full rounded-xl border-2 border-ink bg-white object-cover"
-      />
-    );
-  }
+function PackagePhoto({ src, name }: { src: string; name: string }) {
   return (
-    <div className="grid aspect-square w-full place-items-center rounded-xl border-2 border-dashed border-ink/40 bg-muted">
-      <img src={toteIcon} alt="" className="w-24 opacity-30 grayscale" />
-    </div>
+    <img
+      src={src}
+      alt={`${name} package of moving totes`}
+      loading="lazy"
+      width={1000}
+      height={1000}
+      className="aspect-square w-full rounded-xl border-2 border-ink bg-white object-cover"
+    />
   );
 }
 
@@ -517,6 +511,12 @@ function Index() {
                 </li>
               ))}
             </ul>
+            <p className="mt-6 text-lg font-semibold">
+              Prefer to talk it through?{" "}
+              <a href={`tel:${CONTACT_PHONE_TEL}`} className="underline underline-offset-2">
+                Call or text {CONTACT_PHONE}
+              </a>
+            </p>
           </div>
           <div
             className={`rounded-3xl bg-background p-5 sm:p-7 md:col-span-3 ${pop} shadow-[8px_8px_0_0_var(--ink)]`}

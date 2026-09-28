@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { CONTACT_PHONE_TEL } from "@/components/site-chrome";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -120,6 +121,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://www.mauimovingtotes.com/",
           image: "https://www.mauimovingtotes.com/og-image.png",
           email: "info@mauimovingtotes.com",
+          telephone: CONTACT_PHONE_TEL,
           areaServed: ["West Maui", "Central Maui", "Upcountry", "South Maui"],
           address: { "@type": "PostalAddress", addressRegion: "HI", addressCountry: "US" },
           sameAs: [
