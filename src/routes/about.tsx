@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Baby, Dumbbell, Flame, Sunset } from "lucide-react";
 
 import { BookButton, SHARE_IMAGE, SiteFooter, SiteHeader, pop } from "@/components/site-chrome";
-// Swap this for a real photo once one is saved into src/assets/brand/ (see chat).
-import ownerPhotoPlaceholder from "@/assets/brand/tote-icon.png";
+import ownerPhoto from "@/assets/brand/owner.jpg";
 
 const TITLE = "About the Owner — MAUI MOVING TOTES";
 const DESCRIPTION =
@@ -61,14 +60,13 @@ function About() {
           <div className="mx-auto w-full max-w-xs md:mx-0">
             <div className={`overflow-hidden rounded-[2rem] bg-card ${pop}`}>
               <img
-                src={ownerPhotoPlaceholder}
+                src={ownerPhoto}
                 alt="Keanu Catugal, owner of Maui Moving Totes"
-                className="aspect-square w-full bg-muted object-contain p-10 opacity-40 grayscale"
+                width={900}
+                height={900}
+                className="aspect-square w-full object-cover"
               />
             </div>
-            <p className="mt-3 text-center text-sm text-muted-foreground md:text-left">
-              Photo coming soon
-            </p>
           </div>
 
           <div>
