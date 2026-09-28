@@ -58,6 +58,21 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: SHARE_IMAGE },
     ],
     links: [{ rel: "canonical", href: "https://www.mauimovingtotes.com/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        // Lets Google show the FAQ answers directly in search results.
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
+    ],
   }),
 });
 
@@ -139,6 +154,8 @@ function PackagePhoto({ src, name }: { src: string | null; name: string }) {
         src={src}
         alt={`${name} package of moving totes`}
         loading="lazy"
+        width={1000}
+        height={1000}
         className="aspect-square w-full rounded-xl border-2 border-ink bg-white object-cover"
       />
     );

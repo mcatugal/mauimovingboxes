@@ -110,6 +110,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // Meta Pixel base code: loads once for every page and fires the standard PageView.
         children: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');`,
       },
+      {
+        type: "application/ld+json",
+        // Local-business structured data so search engines can show it as a Maui moving/storage service.
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "MovingCompany",
+          name: "Maui Moving Totes",
+          url: "https://www.mauimovingtotes.com/",
+          image: "https://www.mauimovingtotes.com/og-image.png",
+          email: "info@mauimovingtotes.com",
+          areaServed: ["West Maui", "Central Maui", "Upcountry", "South Maui"],
+          address: { "@type": "PostalAddress", addressRegion: "HI", addressCountry: "US" },
+          sameAs: [
+            "https://www.instagram.com/mauimovingtotes",
+            "https://www.facebook.com/mauimovingtotes",
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

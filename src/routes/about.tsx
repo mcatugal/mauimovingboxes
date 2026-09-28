@@ -19,6 +19,8 @@ export const Route = createFileRoute("/about")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.mauimovingtotes.com/about" },
       { property: "og:image", content: SHARE_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: SHARE_IMAGE },
     ],

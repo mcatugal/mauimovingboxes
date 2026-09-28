@@ -1,5 +1,6 @@
 // Header, footer, and small building blocks shared by every route.
-import { ArrowRight, Facebook, Instagram, Mail, MapPin } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Facebook, Instagram, Mail, MapPin, Menu, X } from "lucide-react";
 
 import logo from "@/assets/brand/logo.png";
 
@@ -52,6 +53,7 @@ export function Logo({ small = false }: { small?: boolean }) {
 }
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 border-b-2 border-ink bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-6 px-5">
@@ -63,14 +65,39 @@ export function SiteHeader() {
             </a>
           ))}
         </nav>
-        <a
-          href="/#book"
-          className={`${btnBase} bg-primary px-5 py-2.5 text-base shadow-[3px_3px_0_0_var(--ink)] hover:shadow-[5px_5px_0_0_var(--ink)]`}
-        >
-          <span className="hidden sm:inline">{BOOK_CTA}</span>
-          <span className="sm:hidden">Book</span>
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href="/#book"
+            className={`${btnBase} bg-primary px-5 py-2.5 text-base shadow-[3px_3px_0_0_var(--ink)] hover:shadow-[5px_5px_0_0_var(--ink)]`}
+          >
+            <span className="hidden sm:inline">{BOOK_CTA}</span>
+            <span className="sm:hidden">Book</span>
+          </a>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-ink md:hidden"
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </div>
+      {open && (
+        <nav className="flex flex-col border-t-2 border-ink bg-background font-display text-lg md:hidden">
+          {NAV.map((n) => (
+            <a
+              key={n.href}
+              href={n.href}
+              onClick={() => setOpen(false)}
+              className="border-b border-ink/10 px-5 py-4 last:border-b-0"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
