@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Baby, Dumbbell, Flame, Sunset } from "lucide-react";
+import { Baby, Dumbbell, Sunset } from "lucide-react";
 
 import { BookButton, SHARE_IMAGE, SiteFooter, SiteHeader, pop } from "@/components/site-chrome";
 import ownerPhoto from "@/assets/brand/owner.jpg";
 
 const TITLE = "About the Owner — MAUI MOVING TOTES";
 const DESCRIPTION =
-  "Meet Keanu Catugal, the Maui-born owner of Maui Moving Totes — husband, father of three, and County of Maui firefighter.";
+  "Meet Keanu Catugal, the Maui-born owner of Maui Moving Totes — husband and father of three.";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -31,7 +31,6 @@ export const Route = createFileRoute("/about")({
 const FACTS = [
   { icon: Sunset, label: "Born & raised on Maui" },
   { icon: Baby, label: "Husband & father of three" },
-  { icon: Flame, label: "County of Maui firefighter" },
   { icon: Dumbbell, label: "Weightlifting & beach days" },
 ];
 
@@ -79,13 +78,11 @@ function About() {
 
             <p className="mt-6 max-w-[62ch] text-lg text-pretty">
               Born and raised on the island of Maui, I'm a husband and father to three beautiful
-              children. When I'm not hauling totes, I'm serving our community another way — as a
-              firefighter for the County of Maui. In my free time, I enjoy weightlifting and beach
-              days with my family. I look forward to working with you and helping you move with
-              ease.
+              children. In my free time, I enjoy weightlifting and beach days with my family. I look
+              forward to working with you and helping you move with ease.
             </p>
 
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-8 grid grid-cols-3 gap-3">
               {FACTS.map((f) => (
                 <div key={f.label} className={`rounded-2xl bg-card p-4 text-center ${pop}`}>
                   <f.icon className="mx-auto size-6 text-primary" />
