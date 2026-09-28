@@ -1,11 +1,16 @@
 // Header, footer, and small building blocks shared by every route.
-import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Facebook, Instagram, Mail, MapPin } from "lucide-react";
 
 import logo from "@/assets/brand/logo.png";
 
 export const CONTACT_EMAIL = "info@mauimovingtotes.com";
 // Link previews need an absolute URL. The file lives in public/og-image.png.
 export const SHARE_IMAGE = "https://www.mauimovingtotes.com/og-image.png";
+
+export const SOCIAL = [
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/mauimovingtotes" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/mauimovingtotes" },
+];
 
 export const NAV = [
   { label: "How It Works", href: "/#how" },
@@ -84,14 +89,30 @@ export function SiteFooter() {
             </a>
           ))}
         </nav>
-        <ul className="space-y-2 md:text-right">
-          <li className="flex items-center gap-2.5 md:justify-end">
-            <Mail className="size-4 text-primary" /> {CONTACT_EMAIL}
-          </li>
-          <li className="flex items-center gap-2.5 md:justify-end">
-            <MapPin className="size-4 text-primary" /> Maui, HI
-          </li>
-        </ul>
+        <div className="space-y-2 md:text-right">
+          <ul className="space-y-2">
+            <li className="flex items-center gap-2.5 md:justify-end">
+              <Mail className="size-4 text-primary" /> {CONTACT_EMAIL}
+            </li>
+            <li className="flex items-center gap-2.5 md:justify-end">
+              <MapPin className="size-4 text-primary" /> Maui, HI
+            </li>
+          </ul>
+          <div className="flex gap-2.5 md:justify-end">
+            {SOCIAL.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+                className="grid size-9 place-items-center rounded-full border-2 border-primary text-primary transition-colors hover:bg-primary hover:text-ink"
+              >
+                <s.icon className="size-4" />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
       <div className="border-t-2 border-background/20 bg-primary text-ink">
         <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 text-sm font-bold sm:flex-row sm:items-center sm:justify-between">
