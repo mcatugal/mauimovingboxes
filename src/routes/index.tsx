@@ -498,7 +498,7 @@ function Index() {
             <span className="inline-block rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
               Takes about a minute
             </span>
-            <h2 className="mt-5 text-5xl text-balance md:text-6xl">Ready to Move Easy?</h2>
+            <h2 className="mt-5 text-5xl text-balance md:text-6xl">Ready to Move with Ease?</h2>
             <p className="mt-4 max-w-[36ch] text-xl font-semibold">
               Tell us a little about your move and pick a time. We'll take it from there.
             </p>

@@ -4,7 +4,7 @@ import { Baby, Dumbbell, Sunset } from "lucide-react";
 import { BookButton, SHARE_IMAGE, SiteFooter, SiteHeader, pop } from "@/components/site-chrome";
 import ownerPhoto from "@/assets/brand/owner.jpg";
 
-const TITLE = "About the Owner — MAUI MOVING TOTES";
+const TITLE = "Meet the Owner — MAUI MOVING TOTES";
 const DESCRIPTION =
   "Meet Keanu Catugal, the Maui-born owner of Maui Moving Totes — husband and father of three.";
 
@@ -50,7 +50,7 @@ function About() {
         />
         <div className="relative mx-auto max-w-6xl px-5 py-14 md:py-20">
           <p className="inline-block rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
-            About the owner
+            Meet the owner
           </p>
           <h1 className="mt-5 text-6xl leading-[0.95] text-balance sm:text-7xl">Meet Keanu</h1>
         </div>

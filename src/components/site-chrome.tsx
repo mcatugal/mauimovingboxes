@@ -19,7 +19,7 @@ export const NAV = [
   { label: "How It Works", href: "/#how" },
   { label: "Packages", href: "/#packages" },
   { label: "FAQ", href: "/#faq" },
-  { label: "About", href: "/about" },
+  { label: "Meet the Owner", href: "/about" },
 ];
 
 export const BOOK_CTA = "Request an Appointment";
