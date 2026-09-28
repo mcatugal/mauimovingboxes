@@ -124,6 +124,10 @@ const FAQS = [
     q: "What if I need more boxes?",
     a: "Just tell us and we'll top up your order before or during your rental.",
   },
+  {
+    q: "Are the totes cleaned between rentals?",
+    a: "Yes. Every tote is inspected, washed, and sanitized after each rental before it goes back out, so you always get a clean, ready-to-use tote.",
+  },
 ];
 
 const STRIP = ["No Cardboard", "No Tape", "We Deliver", "We Pick Up", "Stack & Go", "Maui Moves"];
