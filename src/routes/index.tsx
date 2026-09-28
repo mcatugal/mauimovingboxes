@@ -121,7 +121,7 @@ const FAQS = [
     a: "Packages are priced per week. Keep them longer and we'll simply extend at the weekly rate.",
   },
   {
-    q: "What if I need more boxes?",
+    q: "What if I need more totes?",
     a: "Just tell us and we'll top up your order before or during your rental.",
   },
   {
