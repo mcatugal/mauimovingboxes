@@ -48,7 +48,7 @@ function About() {
           }}
         />
         <div className="relative mx-auto max-w-6xl px-5 py-14 md:py-20">
-          <p className="inline-block -rotate-2 rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
+          <p className="inline-block rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
             About the owner
           </p>
           <h1 className="mt-5 text-6xl leading-[0.95] text-balance sm:text-7xl">Meet Keanu</h1>

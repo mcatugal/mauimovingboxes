@@ -225,7 +225,7 @@ function Index() {
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-[1.05fr_1fr] md:py-20">
           <div className="animate-[rise_0.6s_var(--ease-isle)_both]">
-            <p className="inline-block -rotate-2 rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
+            <p className="inline-block rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
               Reusable moving totes · Maui, HI
             </p>
             <h1 className="mt-5 text-6xl leading-[0.95] text-balance sm:text-7xl lg:text-[5.5rem]">
@@ -263,7 +263,7 @@ function Index() {
                 className="w-full"
               />
             </div>
-            <span className="absolute -top-4 -right-2 rotate-6 rounded-2xl border-2 border-ink bg-background px-4 py-2 font-display text-lg shadow-[4px_4px_0_0_var(--ink)]">
+            <span className="absolute -top-4 right-4 rounded-2xl border-2 border-ink bg-background px-4 py-2 font-display text-lg whitespace-nowrap shadow-[4px_4px_0_0_var(--ink)]">
               Delivery + pickup included
             </span>
           </div>
@@ -295,24 +295,21 @@ function Index() {
                 title: "We Deliver",
                 copy: "We bring clean, reusable moving totes right to your door.",
                 icon: Truck,
-                tilt: "md:-rotate-1",
               },
               {
                 n: "2",
                 title: "You Move",
                 copy: "Pack, snap the lids shut, and stack with ease. No tape needed.",
                 icon: Layers,
-                tilt: "md:rotate-1",
               },
               {
                 n: "3",
                 title: "We Pick Them Up",
                 copy: "When you're done, we'll come get them. Nothing to break down or throw away.",
                 icon: MapPin,
-                tilt: "md:-rotate-1",
               },
             ].map((s) => (
-              <div key={s.n} className={`rounded-3xl bg-card p-7 ${pop} ${s.tilt}`}>
+              <div key={s.n} className={`rounded-3xl bg-card p-7 ${pop}`}>
                 <div className="flex items-center justify-between">
                   <span className="grid size-14 place-items-center rounded-full border-2 border-ink bg-primary font-display text-3xl">
                     {s.n}
@@ -345,7 +342,7 @@ function Index() {
                 }`}
               >
                 {t.featured && (
-                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 rotate-2 rounded-full border-2 border-ink bg-ink px-4 py-1 font-display text-base whitespace-nowrap text-primary">
+                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full border-2 border-ink bg-ink px-4 py-1 font-display text-base whitespace-nowrap text-primary">
                     Most popular
                   </span>
                 )}
@@ -482,7 +479,7 @@ function Index() {
       <section id="book" className="scroll-mt-20 border-b-2 border-ink bg-primary py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl items-start gap-10 px-5 md:grid-cols-5">
           <div className="md:col-span-2">
-            <span className="inline-block rotate-2 rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
+            <span className="inline-block rounded-full border-2 border-ink bg-background px-4 py-1.5 font-display text-base">
               Takes about a minute
             </span>
             <h2 className="mt-5 text-5xl text-balance md:text-6xl">Ready to Move Easy?</h2>
